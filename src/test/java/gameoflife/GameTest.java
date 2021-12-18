@@ -85,4 +85,30 @@ public class GameTest {
         assertThat(game.isAlive(1,0)).isTrue();
     }
 
+    @Test
+    public void aDeadCellWithExactlyThreeLivingNeighboursComesToLife() {
+
+        game.setLivingCell(2,3);
+        game.setLivingCell(2,4);
+        game.setLivingCell(2,5);
+
+        game.buildNextGenMatrix();
+
+        assertThat(game.isAlive(3,4)).isTrue();
+    }
+
+    @Test
+    public void aCellWithMoreThanThreeLivingNeighboursDies() {
+        game.setLivingCell(0,0);
+        game.setLivingCell(0,1);
+        game.setLivingCell(0,2);
+        game.setLivingCell(1,1);
+        game.setLivingCell(1,2);
+
+        game.buildNextGenMatrix();
+
+        assertThat(game.isDead(1,1)).isTrue();
+
+    }
+
 }
