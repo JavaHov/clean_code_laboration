@@ -7,7 +7,7 @@ public class Game {
     private final static int DEAD = 0;
     private final static int ALIVE = 1;
 
-    private final int[][] matrix;
+    private int[][] matrix;
 
     public Game(int rows, int columns) {
         matrix = new int[rows][columns];
@@ -54,11 +54,11 @@ public class Game {
         return livingNeighbours;
     }
 
-    private boolean isAlive(int row, int column) {
+    public boolean isAlive(int row, int column) {
         return matrix[row][column] == ALIVE;
     }
 
-    private boolean isDead(int row, int column) {
+    public boolean isDead(int row, int column) {
         return matrix[row][column] == DEAD;
     }
 
@@ -68,5 +68,51 @@ public class Game {
 
     public void setLivingCell(int y, int x) {
         matrix[y][x] = ALIVE;
+    }
+
+    public void buildNextGenMatrix() {
+
+        int[][] nextMatrix = new int[rows][columns];
+
+        for(int y = 0; y < rows; y++) {
+            for(int x = 0; x < columns; x++) {
+
+                if(aliveWithLessThanTwoLivingNeighbours(y,x))
+                    nextMatrix[y][x] = DEAD;
+                else if(aliveWithTwoOrThreeLivingNeighbours(y,x))
+                    nextMatrix[y][x] = ALIVE;
+                else if(aliveWithMoreThanThreeLivingNeighbours(y,x))
+                    nextMatrix[y][x] = DEAD;
+                else if(deadWithThreeLivingNeighbours(y,x))
+                    nextMatrix[y][x] = ALIVE;
+                else
+                    nextMatrix[y][x] = matrix[y][x];
+            }
+        }
+        matrix = nextMatrix.clone();
+    }
+
+    private boolean deadWithThreeLivingNeighbours(int y, int x) {
+
+        int livingNeighbours = getLivingNeighbours(y,x);
+        return isDead(y,x) && livingNeighbours == 3;
+    }
+
+    private boolean aliveWithMoreThanThreeLivingNeighbours(int y, int x) {
+
+        int livingNeighbours = getLivingNeighbours(y,x);
+        return isAlive(y,x) && livingNeighbours > 3;
+    }
+
+    private boolean aliveWithTwoOrThreeLivingNeighbours(int y, int x) {
+
+        int livingNeighbours = getLivingNeighbours(y,x);
+        return isAlive(y,x) && (livingNeighbours == 2 || livingNeighbours == 3);
+    }
+
+    private boolean aliveWithLessThanTwoLivingNeighbours(int y, int x) {
+
+        int livingNeighbours = getLivingNeighbours(y,x);
+        return isAlive(y,x) && livingNeighbours < 2;
     }
 }
