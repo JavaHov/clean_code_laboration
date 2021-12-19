@@ -108,7 +108,28 @@ public class GameTest {
         game.buildNextGenMatrix();
 
         assertThat(game.isDead(1,1)).isTrue();
+    }
 
+    @Test
+    public void threeLivingNeighboursUpperLeftCorner() {
+
+        game.setLivingCell(0,1);
+        game.setLivingCell(1,0);
+        game.setLivingCell(1,1);
+
+        int livingNeighbours = game.getLivingNeighbours(0,0);
+        assertThat(livingNeighbours).isEqualTo(3);
+    }
+
+    @Test
+    public void threeLivingNeighboursBottomRight() {
+
+        game.setLivingCell(6,6);
+        game.setLivingCell(6,7);
+        game.setLivingCell(7,6);
+
+        int livingNeighbours = game.getLivingNeighbours(7,7);
+        assertThat(livingNeighbours).isEqualTo(3);
     }
 
 }

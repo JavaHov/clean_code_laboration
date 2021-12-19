@@ -67,7 +67,10 @@ public class Game {
     }
 
     public void setLivingCell(int y, int x) {
-        matrix[y][x] = ALIVE;
+        if(withinMatrix(y,x))
+            matrix[y][x] = ALIVE;
+        else
+            throw new ArrayIndexOutOfBoundsException("Outside of matrix!");
     }
 
     public void buildNextGenMatrix() {
