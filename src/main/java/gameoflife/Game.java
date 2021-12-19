@@ -42,12 +42,12 @@ public class Game {
 
         int livingNeighbours = 0;
 
-        for(int i = 0; i < areaToCheck.length; i++) {
+        for (int[] ints : areaToCheck) {
 
-            int rowToCheck = areaToCheck[i][0];
-            int columnToCheck = areaToCheck[i][1];
+            int rowToCheck = ints[0];
+            int columnToCheck = ints[1];
 
-            if(withinMatrix(rowToCheck, columnToCheck) && isAlive(rowToCheck, columnToCheck)){
+            if (withinMatrix(rowToCheck, columnToCheck) && isAlive(rowToCheck, columnToCheck)) {
                 livingNeighbours++;
             }
         }
